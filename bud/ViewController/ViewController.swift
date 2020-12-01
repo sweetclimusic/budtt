@@ -74,7 +74,6 @@ extension ViewController {
     func configureDataSource(){
         let transactions = TransactionItemViewModel()
         transactions.completionDelegate = self
-
         //use and call Diffable Datasource to use my items from listItems via a closure
         dataSourceModel.configureDataSource(collectionView: collectionView, listItems: transactions.transactionList)
         //gather the JSON and attempt to populate the UICollectionView on main section

@@ -12,14 +12,11 @@ protocol ListDownloadCompletionDelegate {
     func listDownLoadCompleted(_ listItems: [TransactionItemModel])
 }
 
-protocol ImageDownloadCompletionDelegate {
-    func imageDownLoadCompleted(_ id: String, image: UIImage)
-}
+
 class TransactionItemViewModel {
     var systemUrl: String = "https://www.mocky.io/v2/5b36325b340000f60cf88903"
     var transactionList: [TransactionItemModel] = []
     var completionDelegate: ListDownloadCompletionDelegate!
-    var imageCompletionDelegate: ImageDownloadCompletionDelegate!
     fileprivate var transactionItems: Transactions?
     fileprivate var dateFormatter: DateFormatter = DateFormatter()
     fileprivate var numberFormatter: NumberFormatter = NumberFormatter()
@@ -39,11 +36,12 @@ class TransactionItemViewModel {
         
     }
 }
-
+let cache = NSCache<NSString, UIImage>()
 extension TransactionItemViewModel {
     
     /// Use the shared URLSession dataTask to pull the transaction data down and decode base on TransactionJsonModel
-    /// - Parameter url: the string url to GET request mock transactions
+    /// - Parameter url:String the string url to GET request mock transactions
+    ///             completion: @escaping (Bool,[TransactionItemModel]) after downloading of json completion function will process the list of TransactionItemModel
     fileprivate func nsURLSessionGetRequest(url: String, completion: @escaping(Bool, [TransactionItemModel]) -> Void ) {
         guard let url = URL(string: url) else {
             return
@@ -54,7 +52,6 @@ extension TransactionItemViewModel {
             if let data = data, error == nil {
                 //decode the json in the closure
                 if let decodedTransactions = try? JSONDecoder().decode(Transactions.self, from: data) {
-                    //odd bug nw_protocol_get_quic_image_block_invoke if not on main queue
                     DispatchQueue.main.async {
                         self.transactionItems = decodedTransactions
                         completion(true,self.generateTransactionsList())
@@ -75,41 +72,25 @@ extension TransactionItemViewModel {
             //use cached logo or downloadImage when retrieving from URL
             let currencySymbol = LanguageUtility.getLocaleIdentifierForCurrencyISO(item.currency.rawValue)!
             numberFormatter.locale = Locale(identifier: currencySymbol)
-            let amount = numberFormatter.string(from: item.amount.value as NSNumber) ?? numberFormatter.string(from: 0)
+            let amount = numberFormatter.string(from: item.amount.value as NSNumber) ?? numberFormatter.string(from: 0)!
             let date = dateFormatter.date(from: item.date)!
+            //use the cached version if already downloaded or placeholder image
             // populate list of transactions
-            let transaction = TransactionItemModel(
-                image: UIImage(systemName: "rectangle"),
+            var transaction = TransactionItemModel(
+                image: UIImage(systemName: "rectangle")!,
                 amount: amount,
                 id: item.id,
                 datumDescription: item.datumDescription,
                 category: item.category,
                 date: date,
                 imageUrl: item.product.icon)
+            
+            if let cachedImage: UIImage = cache.object(forKey: item.product.icon as NSString) {
+                transaction.image = cachedImage
+            }
             transactionList.append(transaction)
         
         }
         return transactionList
     }
-    
-//    func downloadProductIcon(url: String, completion: () -> Void) {
-//        guard let url = URL(string: url) else {
-//            return
-//        }
-//
-//        URLSession.shared.dataTask(with: url) { data, response, error in
-//            if let data = data, error == nil {
-//                //decode the json in the closure
-//                if let decodedTransactions = try? JSONDecoder().decode(Transactions.self, from: data) {
-//                    //odd bug nw_protocol_get_quic_image_block_invoke if not on main queue
-//                    DispatchQueue.main.async {
-//                        UIImage(data: data)
-//                        completion(true,data)
-//                    }
-//                }
-//            } else {
-//                completion(false,[])
-//            }
-//        }.resume()
-//    }
 }

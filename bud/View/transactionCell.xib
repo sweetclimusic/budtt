@@ -21,6 +21,10 @@
                         <constraint firstAttribute="height" constant="68" id="Afz-ax-N6I"/>
                     </constraints>
                 </imageView>
+                <view hidden="YES" tag="100" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MOc-fW-aQL" userLabel="imageHighlightOverlay">
+                    <rect key="frame" x="25" y="60.5" width="68" height="68"/>
+                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="itemTitle" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TZN-WH-9hC" userLabel="itemTitle">
                     <rect key="frame" x="93" y="68" width="42" height="20.5"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
@@ -55,18 +59,22 @@
                 <constraint firstItem="OQK-mO-7ag" firstAttribute="centerY" secondItem="TZN-WH-9hC" secondAttribute="centerY" id="60M-HZ-Vuj"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="OQK-mO-7ag" secondAttribute="trailing" constant="28" id="6Ha-cB-F2K"/>
                 <constraint firstItem="m19-zp-eKj" firstAttribute="leading" secondItem="TZN-WH-9hC" secondAttribute="leading" id="7gj-gm-PMo"/>
+                <constraint firstItem="MOc-fW-aQL" firstAttribute="width" secondItem="cUD-3o-C2t" secondAttribute="width" id="Cl2-Vo-6EK"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="cUD-3o-C2t" secondAttribute="bottom" constant="21.5" id="Hn2-Yx-rfH"/>
                 <constraint firstItem="TZN-WH-9hC" firstAttribute="leading" secondItem="cUD-3o-C2t" secondAttribute="trailing" id="HwY-X4-Zmi"/>
                 <constraint firstItem="Vuo-4Z-opq" firstAttribute="leading" secondItem="TZN-WH-9hC" secondAttribute="leading" id="L27-JC-NYB"/>
                 <constraint firstItem="OQK-mO-7ag" firstAttribute="trailing" secondItem="Vuo-4Z-opq" secondAttribute="trailing" id="MVI-Qt-MkT"/>
-                <constraint firstItem="cUD-3o-C2t" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="16.5" id="aKh-IZ-XPC"/>
+                <constraint firstItem="MOc-fW-aQL" firstAttribute="centerX" secondItem="cUD-3o-C2t" secondAttribute="centerX" id="drs-hL-LTl"/>
+                <constraint firstItem="MOc-fW-aQL" firstAttribute="centerY" secondItem="cUD-3o-C2t" secondAttribute="centerY" id="k5M-zn-d5f"/>
                 <constraint firstItem="TZN-WH-9hC" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="24" id="kF3-nX-kzS"/>
+                <constraint firstItem="MOc-fW-aQL" firstAttribute="height" secondItem="cUD-3o-C2t" secondAttribute="height" id="mhO-uz-Z5L"/>
                 <constraint firstItem="Vuo-4Z-opq" firstAttribute="bottom" secondItem="cUD-3o-C2t" secondAttribute="bottom" id="ste-uK-aA5"/>
                 <constraint firstItem="OQK-mO-7ag" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="21" id="wpc-SA-xrk"/>
                 <constraint firstItem="cUD-3o-C2t" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="25" id="xmq-lZ-9nE"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="imageHighlightOverlay" destination="MOc-fW-aQL" id="ieF-uL-Rna"/>
                 <outlet property="itemAmount" destination="OQK-mO-7ag" id="9oX-As-iIu"/>
                 <outlet property="itemDescription" destination="m19-zp-eKj" id="6Ol-5n-xrc"/>
                 <outlet property="itemTitle" destination="TZN-WH-9hC" id="r3I-g8-Y6s"/>
